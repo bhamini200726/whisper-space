@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhisperSpace</title>
+    <style>
+        :root {
+            --lavender: #E6E6FA;
+            --beige: #F5F5DC;
+            --dusty-blue: #B0C4DE;
+            --soft-pink: #FFD1DC;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, var(--lavender), var(--beige));
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            color: #5D3FD3;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .category {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            margin: 0.5rem;
+            background: var(--dusty-blue);
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category:hover {
+            background: #5D3FD3;
+            transform: translateY(-3px);
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 1rem;
+            border: 2px solid var(--dusty-blue);
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: none;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        button {
+            background: var(--dusty-blue);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        button:hover {
+            background: #5D3FD3;
+            transform: translateY(-3px);
+        }
+
+        .quote {
+            font-style: italic;
+            text-align: center;
+            margin: 2rem 0;
+            color: #5D3FD3;
+            font-size: 1.2rem;
+        }
+
+        .private-link {
+            display: block;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--soft-pink);
+            border-radius: 10px;
+            text-align: center;
+            word-break: break-all;
+        }
+
+        .music-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--dusty-blue);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .letter-wall {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .letter-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            animation: float 6s ease-in-out infinite;
+            animation-delay: calc(var(--delay) * 0.5s);
+        }
+
+        .letter-card:nth-child(1) { --delay: 1; }
+        .letter-card:nth-child(2) { --delay: 2; }
+        .letter-card:nth-child(3) { --delay: 3; }
+        .letter-card:nth-child(4) { --delay: 4; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>WhisperSpace</h1>
+        <p>A calm, anonymous digital space for your emotions</p>
+    </header>
+
+    <div class="container">
+        <!-- Daily Quote Section -->
+        <div class="section">
+            <h2>Daily Whisper</h2>
+            <div class="quote" id="daily-quote">
+                "The wound is the place where the Light enters you." — Rumi
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="section">
+            <h2>Choose Your Emotion</h2>
+            <div class="category" onclick="filterLetters('love')">Love</div>
+            <div class="category" onclick="filterLetters('friendship')">Friendship</div>
+            <div class="category" onclick="filterLetters('confessions')">Confessions</div>
+            <div class="category" onclick="filterLetters('motivation')">Motivation</div>
+        </div>
+
+        <!-- Anonymous Letter Wall -->
+        <div class="section">
+            <h2>Anonymous Letter Wall</h2>
+            <div class="letter-wall" id="letter-wall">
+                <div class="letter-card">
+                    <p>"Sometimes I feel like no one understands me, but writing this helps."</p>
+                    <small>Category: Confessions</small>
+                </div>
+                <div class="letter-card">
+                    <p>"To the one who got away: I still think about you every day."</p>
+                    <small>Category: Love</small>
+                </div>
+                <div class="letter-card">
+                    <p>"Thank you for being my rock when I needed it most."</p>
+                    <small>Category: Friendship</small>
+                </div>
+                <div class="letter-card">
+                    <p>"You are stronger than you think. Keep going."</p>
+                    <small>Category: Motivation</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Write a Letter -->
+        <div class="section">
+            <h2>Write Your Letter</h2>
+            <div class="card">
+                <textarea id="letter-content" placeholder="Write your anonymous letter here..."></textarea>
+                <select id="letter-category">
+                    <option value="love">Love</option>
+                    <option value="friendship">Friendship</option>
+                    <option value="confessions">Confessions</option>
+                    <option value="motivation">Motivation</option>
+                </select>
+                <button onclick="postLetter()">Post Anonymously</button>
+                <button onclick="createPrivateLetter()">Create Private Letter</button>
+            </div>
+        </div>
+
+        <!-- Private Letter Section -->
+        <div class="section" id="private-section" style="display: none;">
+            <h2>Your Private Letter</h2>
+            <div class="card">
+                <p>Share this secret link with someone special. It will be automatically deleted after reading.</p>
+                <div class="private-link" id="private-link"></div>
+                <button onclick="copyLink()">Copy Link</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Music Toggle -->
+    <button class="music-toggle" onclick="toggleMusic()">🎵</button>
+
+    <audio id="background-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Daily quotes
+        const quotes = [
+            "The wound is the place where the Light enters you." — Rumi",
+            "You are the sky. Everything else is just the weather." — Pema Chödrön",
+            "What you seek is seeking you." — Rumi",
+            "The only way out is through." — Robert Frost",
+            "You are enough just as you are." — Meghan Markle"
+        ];
+
+        // Set random daily quote
+        document.getElementById('daily-quote').textContent = `"${quotes[Math.floor(Math.random() * quotes.length)]}"`;
+
+        // Post a letter
+        function postLetter() {
+            const content = document.getElementById('letter-content').value;
+            const category = document.getElementById('letter-category').value;
+
+            if (content.trim() === '') {
+                alert('Please write your letter first');
+                return;
+            }
+
+            const letterWall = document.getElementById('letter-wall');
+            const newLetter = document.createElement('div');
+            newLetter.className = 'letter-card';
+            newLetter.innerHTML = `
+                <p>${content.replace(/\n/g, '<br>')}</p>
+                <small>Category: ${category}</small>
+            `;
+            letterWall.prepend(newLetter);
+
+            // Clear the textarea
+            document.getElementById('letter-content').value = '';
+            alert('Your letter has been posted anonymously!');
+        }
+
+        // Create private letter
+        function createPrivateLetter() {
+            const content = document.getElementById('letter-content').value;
+
+            if (content.trim() === '') {
+                alert('Please write your letter first');
+                return;
+            }
+
+            // Generate a random link (in a real app, this would be a server-generated unique URL)
+            const randomLink = `https://whisperspace.com/private/${Math.random().toString(36).substring(2, 10)}`;
+            document.getElementById('private-link').textContent = randomLink;
+            document.getElementById('private-section').style.display = 'block';
+
+            // In a real app, you would store the letter content with this unique ID
+            // and set it to delete after being read once
+            alert('Private letter created! Share this link with someone special.');
+        }
+
+        // Copy link to clipboard
+        function copyLink() {
+            const link = document.getElementById('private-link').textContent;
+            navigator.clipboard.writeText(link).then(() => {
+                alert('Link copied to clipboard!');
+            });
+        }
+
+        // Filter letters by category
+        function filterLetters(category) {
+            const letters = document.querySelectorAll('.letter-card');
+            letters.forEach(letter => {
+                const letterCategory = letter.querySelector('small').textContent.toLowerCase();
+                if (letterCategory.includes(category)) {
+                    letter.style.display = 'block';
+                } else {
+                    letter.style.display = 'none';
+                }
+            });
+        }
+
+        // Toggle background music
+        function toggleMusic() {
+            const music = document.getElementById('background-music');
+            if (music.paused) {
+                music.play();
+            } else {
+                music.pause();
+            }
+        }
+
+        // Show all letters by default
+        function showAllLetters() {
+            const letters = document.querySelectorAll('.letter-card');
+            letters.forEach(letter => {
+                letter.style.display = 'block';
+            });
+        }
+
+        // Add event listener to show all letters when category buttons are not active
+        document.addEventListener('DOMContentLoaded', function() {
+            // You could add more sophisticated filtering here
+        });
+    </script>
+</body>
+</html>
